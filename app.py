@@ -608,7 +608,7 @@ def get_top_albums(limit=10, time_range="long_term"):
 
 
 
-GENIUS_API_TOKEN = "_PlAhNhVvHds-i9rqTMcBTk28BCsK7RhvdfzDy_WYaYoOoVtWanBkpdt5d_e5C-c"
+GENIUS_API_TOKEN =  os.getenv("GENIUS_API_TOKEN") 
 
 def search_lyrics_on_genius(lyrics):
     """
@@ -731,9 +731,8 @@ def detect_input_type(text):
     except:
         return "unknown"
 
-API_KEY = "ddc-3jsYi0OJLtcuTXEYL2ue2k4Q5o2kjmwkv1YlowcGfmDNuO2cxc"  
-BASE_URL = "https://api.sree.shop/v1"
-
+API_KEY = os.getenv("API_KEY") 
+BASE_URL = os.getenv("BASE_URL")
 client = OpenAI(
     api_key=API_KEY,
     base_url=BASE_URL

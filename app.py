@@ -6,10 +6,6 @@ import pandas as pd
 import matplotlib
 matplotlib.use("Agg")  # Prevents Tkinter backend issues
 import time
-from fuzzywuzzy import fuzz, process
-from indic_transliteration.sanscript import transliterate
-from indic_transliteration.sanscript import ITRANS, DEVANAGARI
-from langdetect import detect
 import matplotlib.pyplot as plt
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth

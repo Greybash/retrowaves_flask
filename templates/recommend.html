@@ -460,26 +460,27 @@
 </header>
 
 <main class="flex flex-col items-center justify-center min-h-screen p-4 relative">
-    <div class="grid-background"></div>
+    <div class="grid-background absolute inset-0 -z-10"></div>
 
     <h1 class="text-5xl font-bold text-gradient mb-8">Song Recommender</h1>
 
     <div class="search-form mb-8">
         <form method="POST" class="space-y-4">
             <div class="flex flex-col space-y-1">
-                <label class="static-grey"  for="song">Song Name:</label>
+                <label class="static-grey" for="song">Song Name:</label>
                 <input type="text" id="song" name="song" placeholder="e.g., Blinding Lights" required
                        class="px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-500">
             </div>
-    
+
             <div class="flex flex-col space-y-1">
                 <label class="static-grey" for="artist">Artist Name:</label>
                 <input type="text" id="artist" name="artist" placeholder="e.g., The Weeknd" required
                        class="px-4 py-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-pink-500">
             </div>
-    
-            <button type="submit" class="search-button button-animate">
-                <i class="fas fa-music mr-2"></i> Get Song Recommendations
+
+            <button type="submit"
+                class="search-button button-animate flex items-center justify-center gap-2 text-white bg-green-600 hover:bg-green-700 px-5 py-3 rounded-full transition w-full">
+                <i class="fas fa-music"></i> Get Song Recommendations
             </button>
         </form>
 
@@ -490,6 +491,12 @@
                 </p>
             </div>
         {% endif %}
+
+        <!-- Go to Menu Button -->
+        <a href="{{ url_for('dashboard') }}"
+           class="mt-4 block search-button button-animate flex items-center justify-center gap-2 text-white bg-green-600 hover:bg-green-700 px-5 py-3 rounded-full transition w-full">
+            <i class="fas fa-home"></i> Go to Menu
+        </a>
     </div>
 
     {% if l %}

@@ -464,20 +464,28 @@
     
     <h1 class="text-5xl font-bold text-gradient  mb-8">Find Songs by Lyrics</h1>
     
-    <div class="search-form  mb-8">
+    <div class="search-form mb-8">
         <form method="POST" class="space-y-4">
             <input type="text" name="user_input" placeholder="Enter song lyrics..." required class="search-input">
+            
+            <!-- Search Lyrics Button -->
             <button type="submit" class="search-button button-animate">
                 <i class="fas fa-music mr-2"></i> Search Lyrics
             </button>
         </form>
-
+    
+        <!-- Redirect Button to Dashboard -->
+        <a href="{{ url_for('dashboard') }}" class="search-button button-animate mt-4">
+            <i class="fas fa-home mr-2"></i> Go to Menu
+        </a>
+    
         {% if message %}
             <div class="mt-4 p-3 rounded-lg bg-red-500 bg-opacity-20 border border-red-500">
                 <p class="text-red-400"><i class="fas fa-exclamation-circle mr-2"></i>{{ message }}</p>
             </div>
         {% endif %}
     </div>
+    
 
     {% if genius_matches %}
         <div class="results-container">

@@ -187,7 +187,34 @@
         body.light-mode .retro-table img {
             border-color: #4caf50;
         }
+        .search-button {
+            background: linear-gradient(90deg, #4caf50, #00ff08);
+            border: none;
+            border-radius: 2rem;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
         
+        .search-button:hover {
+            transform: translateY(-3px);
+          
+        }
+        
+        .search-button:active {
+            transform: translateY(-1px);
+        }
+        
+        .search-button i {
+            margin-right: 0.5rem;
+        }
+         
         body.light-mode .artist-name, 
         body.light-mode .track-name, 
         body.light-mode .album-name {
@@ -332,6 +359,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        <a href="{{ url_for('dashboard') }}" class="search-button button-animate mt-4 flex items-center justify-center gap-2 ">
+            <i class="fas fa-home mr-2"></i> Go to Menu
+        </a>
     </div>
     
 <footer>

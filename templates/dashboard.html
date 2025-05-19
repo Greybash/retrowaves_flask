@@ -290,27 +290,214 @@
         <div class="header flex items-center space-x-2">
             <a href="{{ url_for('profile') }}" class="header flex items-center space-x-2 cursor-pointer">
                 
-                <span class="username">{{ username }}</span>
+                <span class="username static-grey">{{ username }}</span>
                 <img src="{{ profile_image }}" alt="Profile" class="profile-icon w-8 h-8 rounded-full">
             </a>
         </div>
     </div>
 </header>
-<main class="flex flex-col items-center justify-center min-h-screen p-4 ">
+<main class="flex flex-col items-center justify-center min-h-screen p-4 relative overflow-hidden">
+    <!-- Enhanced backgrounds -->
     <div class="grid-background"></div>
-    <div class="text-center md:text-left md:w-1/2 space-y-4">
-        <h1 class="text-5xl font-bold text-gradient">RETROWAVES</h1>
-        <p class="text-xl static-grey">Explore your music with Retrowave Vibes</p>
-        <div class="options flex flex-col space-y-2">
-            <a class="option bg-green-500 text-white px-4 py-2 rounded-full button-animate" href="{{ url_for('recommend') }}">Song Recommendation</a>
-            <a class="option bg-green-500 text-white px-4 py-2 rounded-full button-animate" href="{{ url_for('findsongs') }}"> Song Finder</a>
-            <a class="option bg-green-500 text-white px-4 py-2 rounded-full button-animate" href="{{ url_for('music_analysis') }}"> Music Analysis</a>
-            <a class="option bg-green-500 text-white px-4 py-2 rounded-full button-animate" href="{{ url_for('playlist_to_personality') }}">Playlist to Personality</a>
+    <div class="sun-glow absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-pink-600/30 via-orange-500/10 to-transparent"></div>
+    
+    <!-- Animated retro horizon lines -->
+    <div class="absolute bottom-0 left-0 w-full h-1 bg-pink-600 shadow-[0_0_20px_5px_rgba(255,41,117,0.8)]"></div>
+    <div class="absolute bottom-10 left-0 w-full h-1 bg-purple-600/70 shadow-[0_0_15px_3px_rgba(147,51,234,0.7)]"></div>
+    <div class="absolute bottom-20 left-0 w-full h-1 bg-blue-500/50 shadow-[0_0_10px_2px_rgba(59,130,246,0.6)]"></div>
+    
+    <!-- Animated stars -->
+    <div class="stars-container absolute inset-0 z-0"></div>
+    
+    <!-- Main content with improved spacing and layout -->
+     
+    <div class="relative z-10 text-center md:text-left md:w-1/2 space-y-8 backdrop-blur-sm bg-black/10 p-8 rounded-xl border border-white/10">
+        <!-- Logo and title area -->
+        <div class="mb-8 relative">
+            
+            
+            <h1 class="text-5xl md:text-6xl font-bold text-gradient tracking-wider mb-2">RETROWAVES</h1>
+            <div class="w-full h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent my-4"></div>
+            <p class="text-xl static-grey leading-relaxed">Explore your music with Retrowave Vibes</p>
+        </div>
+        
+        <!-- Enhanced buttons with unique colors and icons -->
+        <div class="options flex flex-col space-y-4 max-w-md mx-auto md:mx-0">
+    <!-- Song Recommendation -->
+    <a
+        style="--tw-gradient-from: #4bb04f; --tw-gradient-to: #00fe08; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);"
+        class="option bg-gradient-to-r text-white px-6 py-4 rounded-full button-animate flex items-center justify-center md:justify-start gap-3 group transition-all duration-300 ease-in-out"
+        href="{{ url_for('recommend') }}">
+        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <i class="fas fa-magic text-white"></i>
+        </div>
+        <span class="font-medium tracking-wide">Song Recommendation</span>
+    </a>
+
+    <!-- Song Finder -->
+    <a
+        style="--tw-gradient-from: #4bb04f; --tw-gradient-to: #00fe08; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);"
+        class="option bg-gradient-to-r text-white px-6 py-4 rounded-full button-animate flex items-center justify-center md:justify-start gap-3 group transition-all duration-300 ease-in-out"
+        href="{{ url_for('findsongs') }}">
+        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <i class="fas fa-search text-white"></i>
+        </div>
+        <span class="font-medium tracking-wide">Song Finder</span>
+    </a>
+
+    <!-- Music Analysis -->
+    <a
+        style="--tw-gradient-from: #4bb04f; --tw-gradient-to: #00fe08; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);"
+        class="option bg-gradient-to-r text-white px-6 py-4 rounded-full button-animate flex items-center justify-center md:justify-start gap-3 group transition-all duration-300 ease-in-out"
+        href="{{ url_for('music_analysis') }}">
+        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <i class="fas fa-chart-bar text-white"></i>
+        </div>
+        <span class="font-medium tracking-wide">Music Analysis</span>
+    </a>
+
+    <!-- Playlist to Personality -->
+    <a
+        style="--tw-gradient-from: #4bb04f; --tw-gradient-to: #00fe08; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);"
+        class="option bg-gradient-to-r text-white px-6 py-4 rounded-full button-animate flex items-center justify-center md:justify-start gap-3 group transition-all duration-300 ease-in-out"
+        href="{{ url_for('playlist_to_personality') }}">
+        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <i class="fas fa-user-circle text-white"></i>
+        </div>
+        <span class="font-medium tracking-wide">Playlist to Personality</span>
+    </a>
+</div>
+
+    
+    <!-- Animated floating cassette decoration -->
+    <div class="cassette absolute right-10 bottom-20 w-24 h-16 bg-gray-800 rounded-md border-2 border-gray-700 shadow-lg hidden md:block animate-float">
+        <div class="cassette-label w-16 h-10 bg-white/10 absolute top-3 left-4 rounded"></div>
+        <div class="cassette-holes flex justify-center space-x-8 absolute bottom-2 left-0 right-0">
+             <div>
+            <div class="w-4 h-4 bg-gray-900 rounded-full"></div>
+        </div>
+            
+            <div>
+            <div class="w-4 h-4 bg-gray-900 rounded-full"></div>
+        </div>
+        </div>
+        <div class="audio-wave flex justify-center md:justify-start gap-1 mb-4">
+            <div class="audio-bar h-4 w-1 bg-green-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-purple-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-cyan-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-blue-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-pink-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-green-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-purple-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-cyan-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-blue-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-pink-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-green-500 rounded-sm"></div>
+            <div class="audio-bar h-4 w-1 bg-purple-500 rounded-sm"></div>
         </div>
     </div>
+    
+    
+    <!-- Style tag for animations -->  
+    <style>
+        /* Enhanced audio wave animation */
+        @keyframes audio-pulse {
+            0% { height: 10px; }
+            50% { height: 32px; }
+            100% { height: 10px; }
+        }
+        
+        .audio-bar:nth-child(1) { animation: audio-pulse 1.2s ease-in-out infinite; }
+        .audio-bar:nth-child(2) { animation: audio-pulse 1.7s ease-in-out infinite; }
+        .audio-bar:nth-child(3) { animation: audio-pulse 1.4s ease-in-out infinite; }
+        .audio-bar:nth-child(4) { animation: audio-pulse 0.9s ease-in-out infinite; }
+        .audio-bar:nth-child(5) { animation: audio-pulse 1.5s ease-in-out infinite; }
+        .audio-bar:nth-child(6) { animation: audio-pulse 1.2s ease-in-out infinite; }
+        .audio-bar:nth-child(7) { animation: audio-pulse 1.7s ease-in-out infinite; }
+        .audio-bar:nth-child(9) { animation: audio-pulse 1.4s ease-in-out infinite; }
+        .audio-bar:nth-child(10) { animation: audio-pulse 0.9s ease-in-out infinite; }
+        .audio-bar:nth-child(11) { animation: audio-pulse 1.5s ease-in-out infinite; }
+        .audio-bar:nth-child(12) { animation: audio-pulse 0.9s ease-in-out infinite; }
+        .audio-bar:nth-child(13) { animation: audio-pulse 1.5s ease-in-out infinite;}
+        
+        /* Create stars dynamically */
+        .stars-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+
+        
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+        
+        /* Enhanced button animations */
+        .button-animate {
+            box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        }
+        
+        .button-animate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px -4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .button-animate:active {
+            transform: translateY(0);
+        }
+        
+        /* Floating animation for the cassette */
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        /* Text gradient animation */
+        
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+    </style>
+    
+    <script>
+        // Generate stars
+        document.addEventListener('DOMContentLoaded', function() {
+            const starsContainer = document.querySelector('.stars-container');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                const size = Math.random() * 2 + 1;
+                star.style.position = 'absolute';
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.backgroundColor = 'white';
+                star.style.borderRadius = '50%';
+                star.style.opacity = '0.7';
+                star.style.animation = `twinkle ${Math.random() * 3 + 2}s ease-in-out infinite`;
+                star.style.animationDelay = `${Math.random() * 5}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        });
+    </script>
 </main>
 <footer>
-    &copy; 2023 Retrowaves. All rights reserved.
+    &copy; 2025 Retrowaves. All rights reserved.
 </footer>
 <div class="cosine-wave"></div>
 <div class="cosine-wave-layer" style="top: 10%;"></div>

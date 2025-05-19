@@ -674,7 +674,7 @@ def recommend():
 
         try:
             completion = client.chat.completions.create(
-                model="gpt-4o",
+                model="provider-2/gpt-4o",
                 messages=[{"role": "user", "content": prompt}]
             )
 
@@ -707,7 +707,7 @@ def detect_input_type(text):
     prompt = f"identify which language is this {text} eg. english,hindi,french or etc and write the sentence in that language,only like this example :The language is Hindi. The sentence is:तू ही हकीकत, ख्वाब तू"
     try:
         completion = client.chat.completions.create(
-            model="gpt-4o",
+            model="provider-2/gpt-4o",
             messages=[{"role": "user", "content": prompt}]
         )
 

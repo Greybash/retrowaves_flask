@@ -664,7 +664,7 @@ import json
 from bytez import Bytez
 
 # Initialize once (top of file)
-sdk = Bytez("cb1c6b7871df8939c0f3fe4022b93f78")
+sdk = Bytez(os.getenv("YOUR_BYTEZ_API_KEY"))
 model = sdk.model("google/gemini-2.5-flash")
 
 
@@ -760,37 +760,54 @@ def recommend():
 
 
 def detect_input_type(text):
-    prompt = f"identify which language is this {text} eg. english,hindi,french or etc and write the sentence in that language,only like this example :The language is Hindi. The sentence is:तू ही हकीकत, ख्वाब तू"
+    prompt = (
+        f"Identify the language of this text:\n\n{text}\n\n"
+        f"Return ONLY valid JSON in this format:\n"
+        f'{{"language": "English", "sentence": "Original sentence here"}}\n'
+        f"Do not explain anything."
+    )
+
     try:
-        completion = client.chat.completions.create(
-            model="provider-2/gpt-4o",
-            messages=[{"role": "user", "content": prompt}]
-        )
+        results = model.run([
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ])
 
-        raw_response = completion.choices[0].message.content 
-        print(raw_response)
-        match = re.search(r"The sentence is:\s*(.+)", raw_response)
+        if results.error:
+            print("Bytez Error:", results.error)
+            return "unknown"
 
-        if match:
-            sentence = match.group(1)
-            print("Extracted:", sentence)
-            print("hiiiiiiiiiii",sentence)
-            return sentence
+        # Extract content safely
+        if isinstance(results.output, dict):
+            content = results.output.get("content", "")
+        else:
+            content = results.output
 
-       
-        
+        print("RAW RESPONSE:", content)
 
-    except:
+        # Extract JSON using regex
+        match = re.search(r"\{.*\}", content, re.DOTALL)
+        if not match:
+            return "unknown"
+
+        data = json.loads(match.group())
+
+        language = data.get("language", "unknown")
+        sentence = data.get("sentence", text)
+
+        print("Detected Language:", language)
+        print("Extracted Sentence:", sentence)
+
+        return {
+            "language": language,
+            "sentence": sentence
+        }
+
+    except Exception as e:
+        print("Exception in detect_input_type:", e)
         return "unknown"
-
-API_KEY = os.getenv("API_KEY") 
-BASE_URL = os.getenv("BASE_URL")
-client = OpenAI(
-    api_key=API_KEY,
-    base_url=BASE_URL
-)
-
-
 
 def get_spotify_links(track_artist_pairs):
     token_info = session.get("token_info")

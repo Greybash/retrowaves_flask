@@ -660,14 +660,16 @@ import json
 from bytez import Bytez
 from flask import request, render_template
 
-# Initialize Bytez SDK (do this once, not inside function)
-sdk = Bytez("YOUR_BYTEZ_API_KEY")
+import json
+from bytez import Bytez
 
-# Choose best model available to you
-model = sdk.model("google/gemini-2.5-pro")
-# If supported:
-# model = sdk.model("google/gemini-3-pro")
+# Initialize once (top of file)
+sdk = Bytez("cb1c6b7871df8939c0f3fe4022b93f78")
+model = sdk.model("google/gemini-2.5-flash")
 
+
+import json
+import re
 
 @app.route('/recommend', methods=["GET", "POST"])
 def recommend():
@@ -684,9 +686,9 @@ def recommend():
         prompt = (
             f"Recommend exactly 10 songs similar to '{song}' by '{artist}'. "
             f"Match genre, mood, tempo, instrumentation, and lyrical theme.\n\n"
-            f"Return ONLY a valid JSON array in this format:\n"
-            f"[{{\"name\": \"Song Title\", \"singer\": \"Artist Name\"}}, ...]\n"
-            f"No explanation. No extra text."
+            f"Return ONLY a JSON array like this:\n"
+            f"[{{\"name\":\"Song Title\",\"singer\":\"Artist Name\"}}]\n"
+            f"Do NOT explain. Do NOT add text."
         )
 
         try:
@@ -697,30 +699,49 @@ def recommend():
                 }
             ])
 
+            # Check API error
             if results.error:
                 print("Bytez Error:", results.error)
                 return render_template(
                     "recommend.html",
-                    message="AI service error. Try again later."
+                    message=f"AI Error: {results.error}"
                 )
 
-            # Parse JSON safely
-            try:
-                songs = json.loads(results.output)
-            except Exception:
-                print("Raw Output:", results.output)
+            if not results.output:
                 return render_template(
                     "recommend.html",
-                    message="Unexpected AI response format."
+                    message="Empty AI response."
                 )
+
+            # 🔥 FIX: Extract content from dict
+            if isinstance(results.output, dict):
+                content = results.output.get("content", "")
+            else:
+                content = results.output
+
+            print("RAW CONTENT:", content)
+
+            # Extract JSON array safely using regex
+            match = re.search(r"\[.*\]", content, re.DOTALL)
+
+            if not match:
+                return render_template(
+                    "recommend.html",
+                    message="AI returned unexpected format."
+                )
+
+            json_string = match.group()
+            print("EXTRACTED JSON:", json_string)
+
+            songs = json.loads(json_string)
 
             if not songs:
                 return render_template(
                     "recommend.html",
-                    message="No recommendations found. Try another song."
+                    message="No recommendations found."
                 )
 
-            # Convert to tuple format for your Spotify function
+            # Convert for Spotify
             matches = [(s["name"], s["singer"]) for s in songs]
 
             l = get_spotify_links(matches)
@@ -728,15 +749,13 @@ def recommend():
             return render_template("recommend.html", l=l, message=None)
 
         except Exception as e:
-            print("Error:", e)
+            print("EXCEPTION:", e)
             return render_template(
                 "recommend.html",
-                message="An error occurred while fetching recommendations."
+                message=f"Exception: {str(e)}"
             )
 
     return render_template("recommend.html", message=None)
-
-
 
 
 

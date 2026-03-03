@@ -656,48 +656,85 @@ def findsongs():
 
 
 
+import json
+from bytez import Bytez
+from flask import request, render_template
+
+# Initialize Bytez SDK (do this once, not inside function)
+sdk = Bytez("YOUR_BYTEZ_API_KEY")
+
+# Choose best model available to you
+model = sdk.model("google/gemini-2.5-pro")
+# If supported:
+# model = sdk.model("google/gemini-3-pro")
+
+
 @app.route('/recommend', methods=["GET", "POST"])
 def recommend():
     if request.method == "POST":
         song = request.form.get("song", "").strip()
         artist = request.form.get("artist", "").strip()
 
-        # Return early if inputs are empty
         if not song or not artist:
-            return render_template("recommend.html", message="Please enter both song and artist.")
+            return render_template(
+                "recommend.html",
+                message="Please enter both song and artist."
+            )
 
         prompt = (
-            f"Recommend a list of 10 songs that are as similar as possible in terms of musical style, mood, "
-            f"genre, tempo, instrumentation, and lyrical theme to '{song}' by '{artist}'. "
-            f"Only return the list in [('Song Title', 'Artist Name'), ...] format."
+            f"Recommend exactly 10 songs similar to '{song}' by '{artist}'. "
+            f"Match genre, mood, tempo, instrumentation, and lyrical theme.\n\n"
+            f"Return ONLY a valid JSON array in this format:\n"
+            f"[{{\"name\": \"Song Title\", \"singer\": \"Artist Name\"}}, ...]\n"
+            f"No explanation. No extra text."
         )
 
         try:
-            completion = client.chat.completions.create(
-                model="provider-2/gpt-4o",
-                messages=[{"role": "user", "content": prompt}]
-            )
+            results = model.run([
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ])
 
-            response = completion.choices[0].message.content
+            if results.error:
+                print("Bytez Error:", results.error)
+                return render_template(
+                    "recommend.html",
+                    message="AI service error. Try again later."
+                )
 
-            # Regex to extract list of tuples
-            pattern = r"\('([^']+)', '([^']+)'\)"
-            matches = re.findall(pattern, response)
+            # Parse JSON safely
+            try:
+                songs = json.loads(results.output)
+            except Exception:
+                print("Raw Output:", results.output)
+                return render_template(
+                    "recommend.html",
+                    message="Unexpected AI response format."
+                )
 
-            if not matches:
-                return render_template("recommend.html", message="No recommendations found. Please try a different song.")
+            if not songs:
+                return render_template(
+                    "recommend.html",
+                    message="No recommendations found. Try another song."
+                )
 
-            # Get Spotify links for each match
+            # Convert to tuple format for your Spotify function
+            matches = [(s["name"], s["singer"]) for s in songs]
+
             l = get_spotify_links(matches)
+
             return render_template("recommend.html", l=l, message=None)
 
         except Exception as e:
             print("Error:", e)
-            return render_template("recommend.html", message="An error occurred while fetching recommendations.")
-    
-    # GET request
-    return render_template("recommend.html", message=None)
+            return render_template(
+                "recommend.html",
+                message="An error occurred while fetching recommendations."
+            )
 
+    return render_template("recommend.html", message=None)
 
 
 
